@@ -15,10 +15,29 @@ const PORT = process.env.PORT || 5000;
 /* ── Middleware ────────────────────────────────── */
 
 // CORS — only allow our frontend
+/* ── Middleware ────────────────────────────────── */
+
+// Updated CORS configuration to handle preflight handshake checks smoothly
+const allowedOrigins = [
+  "http://localhost:5173",          // Vite Local Development
+  "https://shubhamsoni03.github.io" // Production Domain (No trailing slashes or paths)
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
-    methods: ["POST"],
+    origin: function (origin, callback) {
+      // Allow server-to-server or postman requests with no origin header
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Blocked by CORS policy"));
+      }
+    },
+    methods: ["GET", "POST", "OPTIONS"], // 🌟 FIX: Must include OPTIONS for browser verification checks
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 

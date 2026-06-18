@@ -44,6 +44,8 @@ app.use(
 // Parse JSON bodies (limit to 10kb to prevent abuse)
 app.use(express.json({ limit: "10kb" }));
 
+app.set("trust proxy", 1); // 🌟 FIX: Tell Express it is behind a secure proxy (Render)
+
 // Rate limiting — max 5 submissions per IP per 15 minutes
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -59,11 +61,14 @@ const contactLimiter = rateLimit({
 /* ── Nodemailer transporter ───────────────────── */
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com", // 🌟 FIX: Explicitly set the host
+  port: 465,              // 🌟 FIX: Force secure port 465
+  secure: true,           // 🌟 FIX: True for port 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  connectionTimeout: 10000, // 10 seconds timeout limit
 });
 
 // Verify transporter on startup

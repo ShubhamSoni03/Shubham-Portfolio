@@ -5,9 +5,9 @@ import { Reveal } from "./shared";
 
 /* ── API endpoint ── */
 const API_URL = import.meta.env.PROD
-  ? "/api/contact" // production — same origin or proxy
+  ? "https://your-render-web-service-name.onrender.com/api/contact" // 🌟 REPLACE THIS with your actual live Render URL
   : "http://localhost:5000/api/contact"; // dev
-
+  
 /* ── Toast notification ── */
 const Toast = ({ message, type, onClose }) => (
   <motion.div

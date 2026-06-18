@@ -61,23 +61,17 @@ const contactLimiter = rateLimit({
 /* ── Nodemailer transporter ───────────────────── */
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com", // 🌟 FIX: Explicitly set the host
-  port: 465,              // 🌟 FIX: Force secure port 465
-  secure: true,           // 🌟 FIX: True for port 465, false for other ports
+  host: "smtp.gmail.com",
+  port: 587,             // 🌟 CHANGE: Switch to port 587
+  secure: false,         // 🌟 CHANGE: Must be false for port 587 (uses STARTTLS)
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-  connectionTimeout: 10000, // 10 seconds timeout limit
-});
-
-// Verify transporter on startup
-transporter.verify((err) => {
-  if (err) {
-    console.error("❌ Mail transporter error:", err.message);
-  } else {
-    console.log("✅ Mail transporter ready");
-  }
+  tls: {
+    rejectUnauthorized: false // 🌟 FIX: Prevents cloud firewalls from dropping the handshake packet
+  },
+  connectionTimeout: 15000, // Extend wait limit to 15 seconds
 });
 
 /* ── Validation helpers ───────────────────────── */

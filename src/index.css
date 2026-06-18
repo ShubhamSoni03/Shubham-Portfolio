@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-theme-bg: var(--theme-bg);
+  --color-theme-bg2: var(--theme-bg2);
+  --color-theme-bg3: var(--theme-bg3);
+  --color-theme-bdr: var(--theme-bdr);
+  --color-theme-teal: var(--theme-teal);
+  --color-theme-indigo: var(--theme-indigo);
+  --color-theme-rose: var(--theme-rose);
+  --color-theme-amber: var(--theme-amber);
+  --color-theme-mint: var(--theme-mint);
+  --color-theme-white: var(--theme-white);
+  --color-theme-muted: var(--theme-muted);
+  --color-theme-faint: var(--theme-faint);
+  --color-theme-surface: var(--theme-surface);
+  --color-theme-glass: var(--theme-glass);
+  --color-theme-glass-border: var(--theme-glass-border);
+  --color-theme-glass-strong: var(--theme-glass-strong);
+}
+
+/* Add this at the bottom of index.css */
+@utility glass-card {
+  background: rgba(10, 15, 30, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
